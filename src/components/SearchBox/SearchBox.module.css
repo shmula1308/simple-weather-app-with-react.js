@@ -1,0 +1,16 @@
+.controls {
+  position: relative;
+}
+
+.searchBtn {
+  border: none;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 0.9em;
+}
+
+.searchBtn:active {
+  transform: none;
+}

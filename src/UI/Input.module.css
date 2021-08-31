@@ -1,0 +1,21 @@
+.control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.control input {
+  line-height: 22px;
+  position: relative;
+  border: none;
+  width: 100%;
+  padding: 0.6em;
+  font-size: 1rem;
+  border-radius: 4px;
+}
+
+.control label {
+  font-weight: 400;
+  color: #e7e7de;
+  margin-right: 0.5em;
+}

@@ -1,0 +1,15 @@
+.btn {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: #ff8e71;
+  color: #e7e7de;
+  cursor: pointer;
+  transition: transform 0.2s ease-in;
+}
+.btn:hover {
+  background-color: #fd7b5a;
+}
+.btn:active {
+  transform: scale(0.98);
+}
