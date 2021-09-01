@@ -1,5 +1,4 @@
 import React from "react";
-import Input from "../../UI/Input";
 import classes from "./UnitToggle.module.css";
 
 const UnitToggle = (props) => {
