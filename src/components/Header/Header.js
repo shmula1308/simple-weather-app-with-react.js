@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
+import React from "react";
 import classes from "./Header.module.css";
 import { FaCloudSun } from "react-icons/fa";
-import SearchBox from "../SearchBox/SearchBox";
+import SearchBox from "./SearchBox/SearchBox";
 import Button from "../../UI/Button";
 
 const Header = (props) => {
@@ -10,7 +10,7 @@ const Header = (props) => {
       <div className={classes["nav-container"]}>
         <nav className={classes.nav}>
           <a href='#!' className={classes.logo}>
-            <FaCloudSun style={{ color: "#FF8E71", fontSize: "2.3rem" }} />
+            <FaCloudSun className={classes.icon} />
             <span className={classes["logo-text"]}>SimpleWeatherApp</span>
           </a>
           <div className={classes.actions}>
