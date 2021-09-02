@@ -1,9 +1,10 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useCallback } from "react";
 import WeatherContext from "./weather-context";
 
 const defaultState = {
   locations: [],
   unit: "metric",
+  isLoading: false,
   errorMessage: "",
 };
 
@@ -16,14 +17,27 @@ const weatherReducer = (state, action) => {
       locations: updatedLocations,
     };
   }
-  if (action.type === "ERROR") {
-    console.log(action.code);
-  }
+
   if (action.type === "REMOVE") {
     console.log("REMOVE");
   }
+
   if (action.type === "CHANGE") {
     console.log("CHANGE");
+  }
+
+  if (action.type === "ERROR") {
+    return {
+      ...state,
+      errorMessage: action.code,
+    };
+  }
+
+  if (action.type === "LOADING") {
+    return {
+      ...state,
+      isLoading: action.isLoading,
+    };
   }
   return defaultState;
 };
@@ -41,18 +55,24 @@ const WeatherProvider = (props) => {
     dispatchWeatherAction({ type: "UNIT", unit: unit });
   };
 
-  const errorHandler = (errorCode) => {
+  const loadingHandler = useCallback((boolean) => {
+    dispatchWeatherAction({ type: "LOADING", isLoading: boolean });
+  }, []);
+
+  const errorHandler = useCallback((errorCode) => {
     dispatchWeatherAction({ type: "ERROR", code: errorCode });
-  };
+  }, []);
 
   const weatherContext = {
     locations: state.locations,
     unit: state.unit,
+    isLoading: state.isLoading,
     errorMessage: state.errorMessage,
     addLocation: addLocationWeatherHandler,
     removeLocation: removeCityHandler,
     changeUnit: changeUnitHandler,
-    error: errorHandler,
+    setIsLoading: loadingHandler,
+    hasError: errorHandler,
   };
 
   return <WeatherContext.Provider value={weatherContext}>{props.children}</WeatherContext.Provider>;
