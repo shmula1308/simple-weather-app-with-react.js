@@ -1,20 +1,65 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaRegTrashAlt, FaChevronDown } from "react-icons/fa";
+import WeatherContext from "../../store/weather-context";
 import classes from "./WeatherCard.module.css";
 
 const WeatherCard = (props) => {
-  const temp = Math.floor(props.temp);
-  const minTemp = Math.floor(props.minTemp);
-  const maxTemp = Math.floor(props.maxTemp);
-  const realFeel = Math.floor(props.feels);
-  const windSpeed = Math.floor(props.windSpeed);
-  const visibility = Math.floor(props.visibility / 1000);
-  const currentTime = new Date(props.dt * 1000).toLocaleTimeString().slice(0, -3);
+  const ctx = useContext(WeatherContext);
+  const { unit } = ctx;
+
+  const farenheit = (temp) => {
+    return Math.floor((temp * 9) / 5 + 32);
+  };
+
+  const miles = (speed) => {
+    return (speed / 1.609).toFixed(2);
+  };
+
+  const currentTemp = unit === "imperial" ? farenheit(props.temp) : Math.floor(props.temp);
+
+  const minTemp =
+    unit === "imperial" ? farenheit(props.minTemp) + "\u2109" : Math.floor(props.minTemp) + "\u2103";
+
+  const maxTemp =
+    unit === "imperial" ? farenheit(props.maxTemp) + "\u2109" : Math.floor(props.maxTemp) + "\u2103";
+
+  const realFeel =
+    unit === "imperial" ? farenheit(props.feels) + "\u2109" : Math.floor(props.feels) + "\u2103";
+
+  const windSpeed =
+    unit === "imperial" ? miles(props.windSpeed) + " m/h" : props.windSpeed.toFixed(2) + " km/h";
+
+  const visibility =
+    unit === "imperial"
+      ? Math.floor(miles(props.visibility) / 1000) + " mi."
+      : Math.floor(props.visibility) / 1000 + " km";
+
   const sunrise = new Date(props.sunrise * 1000).toLocaleTimeString().slice(0, -3);
   const sunset = new Date(props.sunset * 1000).toLocaleTimeString().slice(0, -3);
 
+  const addZero = (component) => {
+    return component < 10 ? "0" + component : component;
+  };
+
+  const generateCurrentTime = (timezone) => {
+    let now = new Date();
+    let localTime = now.getTime();
+    let localOffset = now.getTimezoneOffset() * 60000;
+    let utc = localTime + localOffset;
+    let city = utc + 1000 * timezone;
+    let nd = new Date(city);
+    let hours = nd.getHours();
+    let minutes = nd.getMinutes();
+    let amOrPm = hours < 12 ? "AM" : "PM";
+    hours = addZero(hours);
+    minutes = addZero(minutes);
+    return `${hours}:${minutes} ${amOrPm}`;
+  };
+
+  const currentTime = generateCurrentTime(props.timezone);
+
   const onRemoveHandler = (id) => {
-    console.log(id);
+    ctx.removeLocation(id);
   };
 
   return (
@@ -36,10 +81,10 @@ const WeatherCard = (props) => {
                 alt=''
               />
             </div>
-            <div className={classes.temp}>{temp}&#176;</div>
+            <div className={classes.temp}>{currentTemp}&#176;</div>
             <div className={classes.realfeel}>
               <span>RealFeel </span>
-              <span>{realFeel}&#176;</span>
+              <span>{realFeel}</span>
             </div>
             <div className={classes.description}>{props.desc}</div>
             <div>
@@ -51,15 +96,15 @@ const WeatherCard = (props) => {
           <div className={classes.column}>
             <div className={classes.data}>
               <span className={classes.key}>Min-temp</span>
-              <span className={classes.value}>{minTemp}&#176;C</span>
+              <span className={classes.value}>{minTemp}</span>
             </div>
             <div className={classes.data}>
               <span className={classes.key}>Max-temp</span>
-              <span className={classes.value}>{maxTemp}&#176;C</span>
+              <span className={classes.value}>{maxTemp}</span>
             </div>
             <div className={classes.data}>
               <span className={classes.key}>Wind</span>
-              <span className={classes.value}>{windSpeed} km/h</span>
+              <span className={classes.value}>{windSpeed}</span>
             </div>
             <div className={classes.data}>
               <span className={classes.key}>Sunrise</span>
@@ -81,7 +126,7 @@ const WeatherCard = (props) => {
             </div>
             <div className={classes.data}>
               <span className={classes.key}>Visibility</span>
-              <span className={classes.value}>{visibility} km</span>
+              <span className={classes.value}>{visibility}</span>
             </div>
             <div className={classes.data}>
               <span className={classes.key}>Cloudiness</span>

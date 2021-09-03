@@ -14,7 +14,7 @@ const SearchBox = (props) => {
     ev.preventDefault();
     const searchTerm = locationInputRef.current.value.trim();
     const API_KEY = "197b6a44145ab67b216dd460b6fee51c";
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${searchTerm}&units=${ctx.unit}&appid=${API_KEY}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${searchTerm}&units=metric&appid=${API_KEY}`;
 
     const transformLocationData = (data) => {
       const locationData = {

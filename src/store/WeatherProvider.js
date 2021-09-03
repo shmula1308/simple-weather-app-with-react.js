@@ -10,7 +10,14 @@ const defaultState = {
 
 const weatherReducer = (state, action) => {
   if (action.type === "ADD") {
-    // const locations = [...state.locations];
+    const existingLocation = state.locations.find((locations) => locations.id === action.locationData.id);
+
+    if (existingLocation) {
+      return {
+        ...state,
+      };
+    }
+
     const updatedLocations = [...state.locations].concat(action.locationData);
     return {
       ...state,
@@ -19,11 +26,19 @@ const weatherReducer = (state, action) => {
   }
 
   if (action.type === "REMOVE") {
-    console.log("REMOVE");
+    const updatedLocations = state.locations.filter((location) => location.id !== action.id);
+
+    return {
+      ...state,
+      locations: updatedLocations,
+    };
   }
 
-  if (action.type === "CHANGE") {
-    console.log("CHANGE");
+  if (action.type === "UNIT") {
+    return {
+      ...state,
+      unit: state.unit === "metric" ? "imperial" : "metric",
+    };
   }
 
   if (action.type === "ERROR") {
@@ -48,11 +63,11 @@ const WeatherProvider = (props) => {
   const addLocationWeatherHandler = (locationData) => {
     dispatchWeatherAction({ type: "ADD", locationData: locationData });
   };
-  const removeCityHandler = (id) => {
+  const removeLocationHandler = (id) => {
     dispatchWeatherAction({ type: "REMOVE", id: id });
   };
-  const changeUnitHandler = (unit) => {
-    dispatchWeatherAction({ type: "UNIT", unit: unit });
+  const changeUnitHandler = () => {
+    dispatchWeatherAction({ type: "UNIT" });
   };
 
   const loadingHandler = useCallback((boolean) => {
@@ -69,7 +84,7 @@ const WeatherProvider = (props) => {
     isLoading: state.isLoading,
     errorMessage: state.errorMessage,
     addLocation: addLocationWeatherHandler,
-    removeLocation: removeCityHandler,
+    removeLocation: removeLocationHandler,
     changeUnit: changeUnitHandler,
     setIsLoading: loadingHandler,
     hasError: errorHandler,

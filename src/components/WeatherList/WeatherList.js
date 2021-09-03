@@ -5,31 +5,8 @@ import WeatherCard from "./WeatherCard";
 
 const WeatherList = (props) => {
   const ctx = useContext(WeatherContext);
-
   const { locations } = ctx;
-  // const locationData = {
-  //   name: data.name,
-  //   id: data.id,
-  //   icon: data.weather[0].icon,
-  //   temperature: data.main.temp,
-  //   feels_like: data.main.feels_like,
-  //   description: data.weather[0].description,
-  //   min_temp: data.main.temp_min,
-  //   max_temp: data.main.temp_max,
-  //   wind_speed: data.wind.speed,
-  //   sunrise: data.sys.sunrise,
-  //   sunset: data.sys.sunset,
-  //   humidity: data.main.humidity,
-  //   pressure: data.main.pressure,
-  //   visibility: data.visibility,
-  //   cloudiness: data.clouds.all,
-  //   coord: {
-  //     lat: data.coord.lat,
-  //     lon: data.coord.lon,
-  //   },
-  //   timezone: data.timezone,
-  //   dt: data.dt,
-  // };
+
   return (
     <ul className={classes.list}>
       {locations.map((location) => {
