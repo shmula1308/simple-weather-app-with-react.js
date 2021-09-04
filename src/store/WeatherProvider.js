@@ -6,6 +6,7 @@ const defaultState = {
   unit: "metric",
   isLoading: false,
   errorMessage: "",
+  alert: false,
 };
 
 const weatherReducer = (state, action) => {
@@ -15,6 +16,7 @@ const weatherReducer = (state, action) => {
     if (existingLocation) {
       return {
         ...state,
+        alert: !state.alert,
       };
     }
 
@@ -88,6 +90,7 @@ const WeatherProvider = (props) => {
     changeUnit: changeUnitHandler,
     setIsLoading: loadingHandler,
     hasError: errorHandler,
+    alert: state.alert,
   };
 
   return <WeatherContext.Provider value={weatherContext}>{props.children}</WeatherContext.Provider>;

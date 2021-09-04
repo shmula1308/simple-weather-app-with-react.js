@@ -1,11 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { FaRegTrashAlt, FaChevronDown } from "react-icons/fa";
+
 import WeatherContext from "../../store/weather-context";
 import classes from "./WeatherCard.module.css";
 
 const WeatherCard = (props) => {
   const ctx = useContext(WeatherContext);
+  const [detailsAreShown, setDetailsAreShown] = useState(false);
+
   const { unit } = ctx;
+
+  const weatherDescription = props.desc
+    .split(" ")
+    .map((word) => word[0].toUpperCase() + word.slice(1))
+    .join(" ");
 
   const farenheit = (temp) => {
     return Math.floor((temp * 9) / 5 + 32);
@@ -62,12 +70,19 @@ const WeatherCard = (props) => {
     ctx.removeLocation(id);
   };
 
+  const onShowDetailsHandler = () => {
+    setDetailsAreShown((prevState) => !prevState);
+  };
+
+  const weatherCardClasses = `${classes.weatherCard} ${classes.bump}`;
+  const arrowClasses = `${classes.arrow} ${detailsAreShown ? classes.rotateArrow : ""}`;
+
   return (
-    <li className={classes.weatherCard}>
+    <li className={weatherCardClasses}>
       <div className={classes.trashBtn} onClick={onRemoveHandler.bind(null, props.id)}>
         <FaRegTrashAlt />
       </div>
-      <details>
+      <details onClick={onShowDetailsHandler}>
         <summary className={classes.header}>
           <div className={classes["header-content"]}>
             <div className={classes.location}>
@@ -86,9 +101,9 @@ const WeatherCard = (props) => {
               <span>RealFeel </span>
               <span>{realFeel}</span>
             </div>
-            <div className={classes.description}>{props.desc}</div>
+            <div className={classes.description}>{weatherDescription}</div>
             <div>
-              <FaChevronDown className={classes.arrow} />
+              <FaChevronDown className={arrowClasses} />
             </div>
           </div>
         </summary>
