@@ -15,6 +15,7 @@ const WeatherList = (props) => {
             key={location.id}
             id={location.id}
             name={location.name}
+            countryCode={location.countryCode}
             icon={location.icon}
             temp={location.temperature}
             feels={location.feels_like}

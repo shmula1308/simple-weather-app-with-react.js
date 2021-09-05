@@ -16,7 +16,8 @@ const weatherReducer = (state, action) => {
     if (existingLocation) {
       return {
         ...state,
-        alert: !state.alert,
+        errorMessage: "Location is already displayed!",
+        alert: true,
       };
     }
 
@@ -46,7 +47,8 @@ const weatherReducer = (state, action) => {
   if (action.type === "ERROR") {
     return {
       ...state,
-      errorMessage: action.code,
+      errorMessage: action.message,
+      alert: true,
     };
   }
 
@@ -54,6 +56,19 @@ const weatherReducer = (state, action) => {
     return {
       ...state,
       isLoading: action.isLoading,
+    };
+  }
+
+  if (action.type === "REMOVEALERT") {
+    return {
+      ...state,
+      alert: false,
+    };
+  }
+  if (action.type === "RESET") {
+    return {
+      ...state,
+      locations: [],
     };
   }
   return defaultState;
@@ -76,9 +91,17 @@ const WeatherProvider = (props) => {
     dispatchWeatherAction({ type: "LOADING", isLoading: boolean });
   }, []);
 
-  const errorHandler = useCallback((errorCode) => {
-    dispatchWeatherAction({ type: "ERROR", code: errorCode });
+  const errorHandler = useCallback((errorMessage) => {
+    dispatchWeatherAction({ type: "ERROR", message: errorMessage });
   }, []);
+
+  const removeAlertHandler = () => {
+    dispatchWeatherAction({ type: "REMOVEALERT" });
+  };
+
+  const resetHandler = () => {
+    dispatchWeatherAction({ type: "RESET" });
+  };
 
   const weatherContext = {
     locations: state.locations,
@@ -91,6 +114,8 @@ const WeatherProvider = (props) => {
     setIsLoading: loadingHandler,
     hasError: errorHandler,
     alert: state.alert,
+    removeAlert: removeAlertHandler,
+    reset: resetHandler,
   };
 
   return <WeatherContext.Provider value={weatherContext}>{props.children}</WeatherContext.Provider>;

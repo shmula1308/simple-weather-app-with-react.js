@@ -1,5 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { FaRegTrashAlt, FaChevronDown } from "react-icons/fa";
+// import moment from "moment";
+// import timezone from "moment-timezone";
 
 import WeatherContext from "../../store/weather-context";
 import classes from "./WeatherCard.module.css";
@@ -87,7 +89,9 @@ const WeatherCard = (props) => {
           <div className={classes["header-content"]}>
             <div className={classes.location}>
               <p className={classes.time}>{currentTime}</p>
-              <p className={classes.city}>{props.name}</p>
+              <p className={classes.city}>
+                {props.name}, {props.countryCode}
+              </p>
             </div>
             <div className={classes.icon}>
               <img

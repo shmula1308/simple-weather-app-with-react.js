@@ -6,10 +6,22 @@
   background-color: #0f3057;
   color: #e7e7de;
   text-align: center;
-  padding: 0.5em;
   transform: translateX(-340px);
-  transition: all 1.2s ease-in;
+  transition: transform 0.2s ease-in;
+  padding: 0.5em;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.removeBtn {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  font-size: 0.8em;
+  cursor: pointer;
+}
+
+.removeBtn:hover {
+  color: cadetblue;
 }
 
 .showAlert {

@@ -5,7 +5,7 @@ import Input from "../../../UI/Input";
 import Button from "../../../UI/Button";
 import classes from "./SearchBox.module.css";
 
-const SearchBox = (props) => {
+const SearchBox = () => {
   const locationInputRef = useRef();
   const ctx = useContext(WeatherContext);
   const { sendRequest: fetchWeather } = useHttp();
@@ -19,6 +19,7 @@ const SearchBox = (props) => {
     const transformLocationData = (data) => {
       const locationData = {
         name: data.name,
+        countryCode: data.sys.country,
         id: data.id,
         icon: data.weather[0].icon,
         temperature: data.main.temp,
@@ -44,7 +45,6 @@ const SearchBox = (props) => {
       ctx.addLocation(locationData);
     };
     fetchWeather({ url: url }, transformLocationData);
-
     locationInputRef.current.value = "";
   };
 

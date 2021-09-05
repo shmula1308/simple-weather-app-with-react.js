@@ -11,6 +11,8 @@ const WeatherContext = React.createContext({
   setIsLoading: () => {},
   error: () => {},
   alert: false,
+  removeAlert: () => {},
+  reset: () => {},
 });
 
 export default WeatherContext;
