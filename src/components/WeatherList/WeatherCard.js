@@ -1,7 +1,5 @@
 import React, { useContext, useState } from "react";
 import { FaRegTrashAlt, FaChevronDown } from "react-icons/fa";
-// import moment from "moment";
-// import timezone from "moment-timezone";
 
 import WeatherContext from "../../store/weather-context";
 import classes from "./WeatherCard.module.css";
@@ -44,8 +42,8 @@ const WeatherCard = (props) => {
       ? Math.floor(miles(props.visibility) / 1000) + " mi."
       : Math.floor(props.visibility) / 1000 + " km";
 
-  const sunrise = new Date(props.sunrise * 1000).toLocaleTimeString().slice(0, -3);
-  const sunset = new Date(props.sunset * 1000).toLocaleTimeString().slice(0, -3);
+  // const sunrise = new Date(props.sunrise * 1000).toLocaleTimeString().slice(0, -3);
+  // const sunset = new Date(props.sunset * 1000).toLocaleTimeString().slice(0, -3);
 
   const addZero = (component) => {
     return component < 10 ? "0" + component : component;
@@ -127,11 +125,11 @@ const WeatherCard = (props) => {
             </div>
             <div className={classes.data}>
               <span className={classes.key}>Sunrise</span>
-              <span className={classes.value}>{sunrise} AM</span>
+              <span className={classes.value}>{props.sunrise}</span>
             </div>
             <div className={classes.data}>
               <span className={classes.key}>Sunset</span>
-              <span className={classes.value}>{sunset} PM</span>
+              <span className={classes.value}>{props.sunset}</span>
             </div>
           </div>
           <div className={classes.column}>

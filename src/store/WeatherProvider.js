@@ -71,15 +71,23 @@ const weatherReducer = (state, action) => {
       locations: [],
     };
   }
+
+  if (action.type === "COORD") {
+    console.log(action.data);
+    return {
+      ...state,
+      locationCoord: action.data,
+    };
+  }
   return defaultState;
 };
 
 const WeatherProvider = (props) => {
   const [state, dispatchWeatherAction] = useReducer(weatherReducer, defaultState);
 
-  const addLocationWeatherHandler = (locationData) => {
+  const addLocationWeatherHandler = useCallback((locationData) => {
     dispatchWeatherAction({ type: "ADD", locationData: locationData });
-  };
+  }, []);
   const removeLocationHandler = (id) => {
     dispatchWeatherAction({ type: "REMOVE", id: id });
   };
@@ -105,6 +113,7 @@ const WeatherProvider = (props) => {
 
   const weatherContext = {
     locations: state.locations,
+    locationCoord: state.locationCoord,
     unit: state.unit,
     isLoading: state.isLoading,
     errorMessage: state.errorMessage,

@@ -9,6 +9,7 @@ const WeatherContext = React.createContext({
   removeLocation: () => {},
   changeUnit: () => {},
   setIsLoading: () => {},
+  hasError: () => {},
   error: () => {},
   alert: false,
   removeAlert: () => {},
